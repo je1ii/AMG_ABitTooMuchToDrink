@@ -370,6 +370,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 4
+  jumpForce: 5
+  gravity: 20
+  spriteTransform: {fileID: 1818017926}
 --- !u!4 &891578755
 Transform:
   m_ObjectHideFlags: 0

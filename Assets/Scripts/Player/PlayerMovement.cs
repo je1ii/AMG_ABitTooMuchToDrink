@@ -2,15 +2,31 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]private float moveSpeed = 0;
-    void Start()
-    {
-        
-    }
+    [SerializeField] private float moveSpeed = 0;
+    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float gravity = 20f;
+    
+    [SerializeField] private Transform spriteTransform;
+    
+    private bool isJumping = false;
+    private float verticalVelocity = 0f;
+    private float currentHeight = 0f;  
     
     void Update()
     {
-        if(this != null) InputMovement();
+        if (this != null)
+        {
+            InputMovement();
+            HandleJump();
+            
+            if (spriteTransform == null)
+            {
+                Debug.Log("Sprite not assigned.");
+                return;
+            }
+            
+            ApplyVisualHeight();
+        }
     }
     
     private void InputMovement()
@@ -41,4 +57,36 @@ public class PlayerMovement : MonoBehaviour
         };
         return screenPos;
     }
+    
+    private void HandleJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && currentHeight == 0)
+        {
+            verticalVelocity = jumpForce;
+            isJumping = true;
+        }
+
+        if (currentHeight > 0 || verticalVelocity > 0)
+        {
+            verticalVelocity -= gravity * Time.deltaTime;
+            currentHeight += verticalVelocity * Time.deltaTime;
+
+            if (currentHeight < 0)
+            {
+                currentHeight = 0;
+                verticalVelocity = 0;
+                isJumping = false;
+            }
+        }
+    }
+
+    private void ApplyVisualHeight()
+    {
+        spriteTransform.localPosition = new Vector3(
+            spriteTransform.localPosition.x,
+            currentHeight,
+            spriteTransform.localPosition.z
+        );
+    }
+
 }
