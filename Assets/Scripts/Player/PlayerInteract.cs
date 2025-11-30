@@ -8,20 +8,27 @@ public class PlayerInteract : MonoBehaviour
 
     [SerializeField] private GameObject interactTarget;
     private InventorySystem invSys;
+    private PlayerThrow pt;
 
     private void Start()
     {
-        invSys = GetComponentInChildren<InventorySystem>();
+        invSys = GetComponent<InventorySystem>();
+        pt = GetComponent<PlayerThrow>();
     }
 
     void Update()
     {
         UpdateBeersInRange();     
-        UpdateInteractTarget();   
+        UpdateInteractTarget();
+        pt.ReadyThrow();
         
         // collect beer in range
         if (Input.GetKeyDown(KeyCode.E))
             CollectBeer();
+        
+        // throw beer from inventory
+        if (Input.GetMouseButtonDown(0))
+            pt.StartThrow();
     }
     
     // update the list of beers in range of the player
@@ -39,7 +46,7 @@ public class PlayerInteract : MonoBehaviour
 
             BeerItem beerItem = beer.GetComponent<BeerItem>();
 
-            if (distance <= interactRange)
+            if (distance <= 1f)
             {
                 beersInRange.Add(beer);
                 beerItem?.EnableOutline();
@@ -59,11 +66,10 @@ public class PlayerInteract : MonoBehaviour
 
         foreach (GameObject beer in beersInRange)
         {
-            float distance = FindDistance(beer.transform);
-
-            if (distance < closestDistance)
+            float metric = FindDistance(beer.transform);
+            if (metric <= 1f && metric < closestDistance)
             {
-                closestDistance = distance;
+                closestDistance = metric;
                 interactTarget = beer;
             }
         }
@@ -79,11 +85,9 @@ public class PlayerInteract : MonoBehaviour
         float dy = b.y - a.y; 
 
         float rx = interactRange;
-        
         float ry = interactRange * 0.5f;
 
-        float metric = (dx * dx) / (rx * rx) + (dy * dy) / (ry * ry);
-        return metric;
+        return (dx * dx) / (rx * rx) + (dy * dy) / (ry * ry);
     }
 
     private void CollectBeer()
