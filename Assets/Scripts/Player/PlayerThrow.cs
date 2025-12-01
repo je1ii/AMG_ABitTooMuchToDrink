@@ -4,18 +4,21 @@ using UnityEngine;
 public class PlayerThrow : MonoBehaviour
 {
     [SerializeField] private float throwForwardSpeed = 8f;
-    [SerializeField] private float throwUpwardSpeed = 3f;
-    [SerializeField] private float throwDelay = 1f;
+    [SerializeField] private float throwUpwardSpeed = 0f;
+    [SerializeField] private float throwDelay = 0.2f;
     
     private bool isThrowing = false;
     
     private PlayerHands hands;
     private InventorySystem invSys;
+    private PlayerMovement movement;
     void Start()
     {
         invSys = GetComponent<InventorySystem>();
         hands = GetComponent<PlayerHands>();
+        movement = GetComponent<PlayerMovement>();
     }
+    
     public IEnumerator ThrowBeer()
     {
         BeerData toThrow = hands.Throwing();
@@ -35,9 +38,23 @@ public class PlayerThrow : MonoBehaviour
             yield break;
         }
             
+        Vector2 flatDirection = movement.CartesianFacingDirection;
+        Vector3 throwDirection = new Vector3(flatDirection.x, flatDirection.y, 0f); 
+
+        Vector3 cartesianSpawnPos = movement.GetWorldPosition(); 
+        
+        cartesianSpawnPos = new Vector3(cartesianSpawnPos.x, cartesianSpawnPos.y, 1f);
+
+        Vector3 visualSpawnPosBase = IsometricUtil.CartesianToIsometric(cartesianSpawnPos);
+        Vector3 finalVisualSpawnPos = new Vector3(
+            visualSpawnPosBase.x,
+            visualSpawnPosBase.y + cartesianSpawnPos.z,
+            0 
+        );
+
         GameObject obj = Instantiate(
             toThrow.beerProjectile,
-            transform.position + transform.forward * 0.5f + Vector3.up * 1f,
+            finalVisualSpawnPos,
             Quaternion.identity
         );
 
@@ -45,29 +62,28 @@ public class PlayerThrow : MonoBehaviour
 
         if (projectile == null)
         {
-            Debug.Log("Beer projectile script is not attached");
+            Debug.LogError("Beer projectile script is not attached to the prefab.");
             isThrowing = false;
+            Destroy(obj);
             yield break;
         }
-
-        // Vector2 isoDir = movementIso.LastMoveDirection;
-        //
-        // // if not moving, fallback to top-down orientation
-        // if (isoDir.sqrMagnitude < 0.01f)
-        //     isoDir = movementIso.FacingDirection;
-
-        // Vector3 forward = new Vector3(isoDir.x, 0f, isoDir.y).normalized;
-
-        // projectile.velocity =
-        //     forward * throwForwardSpeed +
-        //     Vector3.up * throwUpwardSpeed;
-
+        
+        Vector2 horizontalThrowVelocity = new Vector2(
+            throwDirection.x * throwForwardSpeed, 
+            throwDirection.y * throwForwardSpeed
+        );
+        
+        float verticalThrowVelocity = throwUpwardSpeed;
+        
+        projectile.Initialize(cartesianSpawnPos, verticalThrowVelocity);
+        projectile.horizontalVelocity = horizontalThrowVelocity;
+        
         isThrowing = false;
     }
 
     public void StartThrow()
     {
-        if (!isThrowing && !hands.IsRightEmpty)
+        if (!isThrowing && hands != null && !hands.IsRightEmpty)
         {
             isThrowing = true;
             StartCoroutine(ThrowBeer());

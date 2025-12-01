@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5917711793187760463}
-  - component: {fileID: 8346180931658590218}
+  - component: {fileID: -2917705593305615850}
   m_Layer: 0
   m_Name: NormalProjectileBeer
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 2142950745726834588}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8346180931658590218
+--- !u!114 &-2917705593305615850
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8de9fb14e1fb0408388324a2a56c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeerProjectile
-  velocity: {x: 0, y: 0, z: 0}
-  gravity: -9.8
+  horizontalVelocity: {x: 0, y: 0}
+  gravity: 20
   groundY: 0
   lifeAfterStop: 0.5
 --- !u!1 &8352074614968093311

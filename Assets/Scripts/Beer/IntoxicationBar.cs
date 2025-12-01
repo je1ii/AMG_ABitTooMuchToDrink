@@ -13,9 +13,16 @@ public class IntoxicationBar : MonoBehaviour
     private float ghostIntoxication;
     
     [Header("Sober Rate")]
-    [SerializeField] private float soberRate = 0.1f;
+    [SerializeField] private float soberDrunkRate = 0.8f;
+    [SerializeField] private float soberDizzyRate = 0.5f;
+    [SerializeField] private float soberNormalRate = 0.1f;
     [SerializeField] private float soberDelay = 1f;
+    
+    [Header("Reference")]
+    [SerializeField] private PlayerMovement movement;
+    
     private float soberTimer;
+    private float soberRate;
     
     private float drainTimer; 
     private float timeToDrain = 0.2f;
@@ -23,7 +30,7 @@ public class IntoxicationBar : MonoBehaviour
     private float drainTarget;
 
     enum BarState { Idle, Draining, Sobering }
-    private  BarState barState = BarState.Idle;
+    private BarState barState = BarState.Idle;
 
     void Start()
     {
@@ -43,11 +50,20 @@ public class IntoxicationBar : MonoBehaviour
         UpdateBarStatus(dt);
 
         if (currentIntoxication >= 70)
-            soberRate = 0.8f;
+        {
+            soberRate = soberDrunkRate;
+            movement.SetPlayerState(true, false);
+        }
         else if (currentIntoxication >= 40)
-            soberRate = 0.5f;
+        {
+            soberRate = soberDizzyRate;
+            movement.SetPlayerState(false, true);
+        }
         else
-            soberRate = 0.1f;
+        {
+            soberRate = soberNormalRate;
+            movement.SetPlayerState(false, false);
+        }
     }
 
     private void UpdateBarStatus(float dt)
