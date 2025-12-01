@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerThrow : MonoBehaviour
 {
+    [Header("Throw Settings")]
     [SerializeField] private float throwForwardSpeed = 8f;
     [SerializeField] private float throwUpwardSpeed = 0f;
     [SerializeField] private float throwDelay = 0.2f;
+    [SerializeField] private float throwCooldown = 2f;
     
     private bool isThrowing = false;
     
@@ -18,7 +22,7 @@ public class PlayerThrow : MonoBehaviour
         hands = GetComponent<PlayerHands>();
         movement = GetComponent<PlayerMovement>();
     }
-    
+
     public IEnumerator ThrowBeer()
     {
         BeerData toThrow = hands.Throwing();
@@ -78,6 +82,7 @@ public class PlayerThrow : MonoBehaviour
         projectile.Initialize(cartesianSpawnPos, verticalThrowVelocity);
         projectile.horizontalVelocity = horizontalThrowVelocity;
         
+        yield return new WaitForSeconds(throwCooldown);
         isThrowing = false;
     }
 

@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
+    private static readonly List<IInteractable> allInteractables = new List<IInteractable>();
+    
     private const float IsometricSquashFactor = 0.5f; 
     
     [SerializeField] private float interactRange = 2f;
-    [SerializeField] private List<GameObject> beersInRange = new List<GameObject>();
+    [SerializeField] private List<IInteractable> itemsInRange = new List<IInteractable>();
 
-    [SerializeField] private GameObject interactTarget;
-    private InventorySystem invSys;
+    [SerializeField] private IInteractable interactTarget;
     private PlayerThrow pt;
 
     private void Start()
     {
-        invSys = GetComponent<InventorySystem>();
         pt = GetComponent<PlayerThrow>();
     }
 
@@ -26,56 +26,34 @@ public class PlayerInteract : MonoBehaviour
         
         // collect beer in range
         if (Input.GetKeyDown(KeyCode.E))
-            CollectBeer();
+            PickedUpTarget();
         
         // throw beer from inventory
         if (Input.GetMouseButtonDown(0))
             pt.StartThrow();
-    }
-    
-    // calculate metric from the center of the elliptical range
-    private float CalculateMetric(Transform target)
-    {
-        Vector3 a = transform.position; // Player's visual position (Isometric Screen XY)
-        Vector3 b = target.position;   // Target's visual position (Isometric Screen XY)
-
-        float dx = b.x - a.x;
-        float dy = b.y - a.y; 
-
-        // R_x and R_y are derived from the interactRange, creating the ellipse boundaries.
-        float rx = interactRange;
-        float ry = interactRange * IsometricSquashFactor;
-
-        // Ellipse equation: (dx^2 / rx^2) + (dy^2 / ry^2)
-        // This value is 1.0 at the edge of the ellipse.
-        float metric = (dx * dx) / (rx * rx) + (dy * dy) / (ry * ry);
-        return metric;
     }
         
     
     // update the list of beers in range of the player
     private void ProcessInteractions()
     {
-        GameObject[] beersInScene = GameObject.FindGameObjectsWithTag("Beer");
+        itemsInRange.Clear();
         
-        beersInRange.Clear();
-        
-        foreach (GameObject beer in beersInScene)
+        foreach (IInteractable item in allInteractables)
         {
-            if (beer == null) continue;
-
-            float metric = CalculateMetric(beer.transform);
-
-            BeerItem beerItem = beer.GetComponent<BeerItem>();
-
+            if (item == null) continue;
+            
+            GameObject itemObject = item.GetGameObject();
+            float metric = CalculateMetric(itemObject.transform);
+        
             if (metric <= 1f)
             {
-                beersInRange.Add(beer);
-                beerItem?.EnableOutline();
+                itemsInRange.Add(item);
+                item.EnableOutline();
             }
             else
             {
-                beerItem?.DisableOutline();
+                item.DisableOutline();
             }
         }
     }
@@ -86,40 +64,55 @@ public class PlayerInteract : MonoBehaviour
         interactTarget = null;
         float closestMetric = float.MaxValue;
 
-        foreach (GameObject beer in beersInRange)
+        foreach (IInteractable item in itemsInRange)
         {
-            float metric = CalculateMetric(beer.transform);
+            GameObject itemObject = item.GetGameObject();
+            float metric = CalculateMetric(itemObject.transform);
+            
             if (metric < closestMetric)
             {
                 closestMetric = metric;
-                interactTarget = beer;
+                interactTarget = item;
             }
         }
     }
 
-    private void CollectBeer()
+    private void PickedUpTarget()
     {
         if (interactTarget == null) return;
         
-        BeerItem beerItem = interactTarget.GetComponent<BeerItem>();
-        if (beerItem == null) return;
-        
-        BeerData data = beerItem.FetchData();
-        if(invSys.AddItem(data, data.beerAmount))
-        {
-            Debug.Log("Added to inventory: " + interactTarget.name);
-        }
-        else
-        {
-            Debug.Log("Full inventory");
-            // indicate full
-            return;
-        }
-        
-        beersInRange.Remove(interactTarget);
-        beerItem.PickUp();
+        interactTarget.Interact(this.gameObject);
         
         interactTarget = null;
+    }
+    
+    // calculate metric from the center of the elliptical range
+    private float CalculateMetric(Transform target)
+    {
+        Vector3 a = transform.position;
+        Vector3 b = target.position; 
+
+        float dx = b.x - a.x;
+        float dy = b.y - a.y; 
+
+        float rx = interactRange;
+        float ry = interactRange * IsometricSquashFactor;
+
+        float metric = (dx * dx) / (rx * rx) + (dy * dy) / (ry * ry);
+        return metric;
+    }
+    
+    public static void Register(IInteractable interactable)
+    {
+        if (!allInteractables.Contains(interactable))
+        {
+            allInteractables.Add(interactable);
+        }
+    }
+
+    public static void Deregister(IInteractable interactable)
+    {
+        allInteractables.Remove(interactable);
     }
     
     private void OnDrawGizmos()
