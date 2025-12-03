@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 0;
     [SerializeField] private float speedBoost = 6f;
     [SerializeField] private float jumpForce = 5f;
@@ -18,8 +20,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dizzyInversionChance = 0.2f;
     [SerializeField] private float drunkInversionChance = 0.5f;
     
+    [FormerlySerializedAs("spriteTransform")]
     [Header("Reference")]
-    [SerializeField] private Transform spriteTransform;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite[] characterSprites;
     
     public Vector2 CartesianFacingDirection { get; private set; } = Vector2.up; 
     
@@ -49,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
             HandleJump();
             UpdateVisualPosition();
             
-            if (spriteTransform == null)
+            if (spriteRenderer == null)
             {
                 Debug.Log("Sprite not assigned.");
                 return;
@@ -184,37 +188,59 @@ public class PlayerMovement : MonoBehaviour
     
     private void UpdateVisualPosition()
     {
-        Vector3 isometricPosition =  IsometricUtil.CartesianToIsometric(worldPosition);
+        Vector3 isometricPosition =  Utils.CartesianToIsometric(worldPosition);
         
         transform.position = new Vector3(isometricPosition.x, isometricPosition.y, worldPosition.z);
     }
     
     private void ApplyVisualRotation()
     {
-        if (spriteTransform == null) return;
+        if (spriteRenderer == null) return;
+        if (characterSprites == null) return;
         
-        if (CartesianFacingDirection.x < -0.1f)
+        Vector2 dir = CartesianFacingDirection;
+
+        bool facingBack = dir.y > 0.1f;
+        bool facingFront = dir.y < -0.1f;
+
+        bool facingLeft = dir.x < -0.1f;
+        bool facingRight = dir.x > 0.1f;
+
+        int index = 0;
+        
+        if (facingFront)
         {
-            spriteTransform.localScale = new Vector3(-2, 2, 2);
+            if (facingLeft)
+                index = 2;
+            else if (facingRight)
+                index = 0;
+            else
+                index = 0;
         }
-        else if (CartesianFacingDirection.x > 0.1f)
+        else if (facingBack)
         {
-            spriteTransform.localScale = new Vector3(2, 2, 2);
+            if (facingLeft)
+                index = 3;
+            else if (facingRight)
+                index = 1;
+            else
+                index = 1;
         }
+        spriteRenderer.sprite = characterSprites[index];
     }
 
     private void ApplyVisualHeight()
     {
-        if (spriteTransform == null)
+        if (spriteRenderer == null)
         {
             Debug.Log("Sprite transform not assigned for visual height.");
             return;
         }
         
-        spriteTransform.localPosition = new Vector3(
-            spriteTransform.localPosition.x,
+        spriteRenderer.transform.localPosition = new Vector3(
+            spriteRenderer.transform.localPosition.x,
             currentHeight,
-            spriteTransform.localPosition.z
+            spriteRenderer.transform.localPosition.z
         );
     }
 

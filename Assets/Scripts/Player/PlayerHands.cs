@@ -18,6 +18,8 @@ public class PlayerHands : MonoBehaviour
         rightHand = beer;
     }
 
+    public BottleData TakeOnRight() => rightHand;
+
     public void RemoveOnLeft()
     {
         leftHand = null;

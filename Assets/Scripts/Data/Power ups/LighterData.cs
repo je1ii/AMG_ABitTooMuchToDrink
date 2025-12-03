@@ -23,7 +23,7 @@ public class LighterData : PowerUpData
             
             if (inv.AddItem(molotovData, molotovData.amount))
             {
-                Debug.Log($"{interactor.name} added {id} to their inventory.");
+                Debug.Log($"{interactor.name} added {molotovData.id} to their inventory.");
             }
             Destroy(item);
         }

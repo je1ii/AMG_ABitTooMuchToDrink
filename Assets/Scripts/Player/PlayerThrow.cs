@@ -1,10 +1,10 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerThrow : MonoBehaviour
 {
+    private static readonly List<EnemyHealth> AllEnemies = new List<EnemyHealth>();
     [Header("Throw Settings")]
     [SerializeField] private float throwForwardSpeed = 8f;
     [SerializeField] private float throwUpwardSpeed = 0f;
@@ -17,6 +17,9 @@ public class PlayerThrow : MonoBehaviour
     private PlayerHands hands;
     private PlayerMovement movement;
     private PlayerConsumption consumption;
+    
+    public static int GetEnemiesCount() => AllEnemies.Count;
+    public static List<EnemyHealth> GetEnemies() => AllEnemies;
     
     void Start()
     {
@@ -52,7 +55,7 @@ public class PlayerThrow : MonoBehaviour
         
         cartesianSpawnPos = new Vector3(cartesianSpawnPos.x, cartesianSpawnPos.y, 1f);
 
-        Vector3 visualSpawnPosBase = IsometricUtil.CartesianToIsometric(cartesianSpawnPos);
+        Vector3 visualSpawnPosBase = Utils.CartesianToIsometric(cartesianSpawnPos);
         Vector3 finalVisualSpawnPos = new Vector3(
             visualSpawnPosBase.x,
             visualSpawnPosBase.y + cartesianSpawnPos.z,
@@ -82,7 +85,7 @@ public class PlayerThrow : MonoBehaviour
         
         float verticalThrowVelocity = throwUpwardSpeed;
         
-        projectile.Initialize(cartesianSpawnPos, verticalThrowVelocity);
+        projectile.Initialize(cartesianSpawnPos, verticalThrowVelocity, toThrow.damageValue);
         projectile.horizontalVelocity = horizontalThrowVelocity;
         
         yield return new WaitForSeconds(throwCooldown);
@@ -121,13 +124,30 @@ public class PlayerThrow : MonoBehaviour
         if (!hands.IsRightEmpty && (hands.rightHand.id == "Beer" || hands.rightHand.id == "Empty Bottle"))
         {
             InventorySlot slot = invSys.GetSlotOfType("Molotov");
+            if (slot == null) slot = invSys.GetSlotOfType("Empty Bottle");
             if (slot == null) return;
             
             BottleData beer = slot.TakeOne();
             if (beer == null)return;
+
+            BottleData beerOnHand = hands.TakeOnRight();
+            invSys.AddItem(beerOnHand, beerOnHand.amount);
             
             hands.HoldOnRight(beer);
             Debug.Log(this.gameObject.name + $" switched {beer.name} on their right hand.");
         }
+    }
+    
+    public static void Register(EnemyHealth enemy)
+    {
+        if (!AllEnemies.Contains(enemy))
+        {
+            AllEnemies.Add(enemy);
+        }
+    }
+
+    public static void Deregister(EnemyHealth enemy)
+    {
+        AllEnemies.Remove(enemy);
     }
 }

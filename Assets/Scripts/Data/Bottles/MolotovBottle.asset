@@ -17,5 +17,6 @@ MonoBehaviour:
   bottleSprite: {fileID: 0}
   iconUI: {fileID: 0}
   bottleProjectile: {fileID: 766395794102114185, guid: a770b587aa839b246af0b58c0339e78d, type: 3}
+  emptyBottle: {fileID: 0}
   intoxicationValue: 0
-  damageValue: 1
+  damageValue: 2

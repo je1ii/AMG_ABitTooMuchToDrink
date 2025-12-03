@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CoffeeData
   m_EditorClassIdentifier: Assembly-CSharp::CoffeeData
   id: Coffee
-  invulnerableDuration: 3
+  invulnerableDuration: 5

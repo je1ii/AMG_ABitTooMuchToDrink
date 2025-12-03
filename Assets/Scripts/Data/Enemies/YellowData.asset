@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d3b6dad33613644878a3f861dca9a6, type: 3}
+  m_Name: YellowData
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  enemyID: Yellow
+  prefab: {fileID: 8873000496840564411, guid: 905ee67dab3fd0f4eb47ee016eed27fe, type: 3}
+  sprites:
+  - {fileID: -579361656410602661, guid: 6c1b8de54ae449a4996a655b5222ea6f, type: 3}
+  - {fileID: -1872381172240138818, guid: 6c1b8de54ae449a4996a655b5222ea6f, type: 3}
+  - {fileID: 9014422241015026772, guid: 6c1b8de54ae449a4996a655b5222ea6f, type: 3}
+  - {fileID: -7850141122407581306, guid: 6c1b8de54ae449a4996a655b5222ea6f, type: 3}
+  health: 1
+  damage: 1
+  speed: 0.5
+  spawnWeight: 10
+  drops:
+  - {fileID: 1298956503318084838, guid: 5579c69885f675d42ae8c436e23b1a7f, type: 3}
+  - {fileID: 5324208444074686454, guid: 8732c0103f5e4a64bbbd4e7376fcd8fd, type: 3}

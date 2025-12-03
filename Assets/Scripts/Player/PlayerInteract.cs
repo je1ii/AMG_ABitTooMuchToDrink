@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private static readonly List<IInteractable> allInteractables = new List<IInteractable>();
-    
-    private const float IsometricSquashFactor = 0.5f; 
+    private static readonly List<IInteractable> AllInteractables = new List<IInteractable>();
     
     [SerializeField] private float interactRange = 2f;
     private List<IInteractable> itemsInRange = new List<IInteractable>();
@@ -39,12 +37,12 @@ public class PlayerInteract : MonoBehaviour
     {
         itemsInRange.Clear();
         
-        foreach (IInteractable item in allInteractables)
+        foreach (IInteractable item in AllInteractables)
         {
             if (item == null) continue;
             
             GameObject itemObject = item.GetGameObject();
-            float metric = CalculateMetric(itemObject.transform);
+            float metric = Utils.CalculateMetric(this.gameObject, itemObject.transform, interactRange);
         
             if (metric <= 1f)
             {
@@ -67,7 +65,7 @@ public class PlayerInteract : MonoBehaviour
         foreach (IInteractable item in itemsInRange)
         {
             GameObject itemObject = item.GetGameObject();
-            float metric = CalculateMetric(itemObject.transform);
+            float metric = Utils.CalculateMetric(this.gameObject, itemObject.transform, interactRange);
             
             if (metric < closestMetric)
             {
@@ -86,33 +84,17 @@ public class PlayerInteract : MonoBehaviour
         interactTarget = null;
     }
     
-    // calculate metric from the center of the elliptical range
-    private float CalculateMetric(Transform target)
-    {
-        Vector3 a = transform.position;
-        Vector3 b = target.position; 
-
-        float dx = b.x - a.x;
-        float dy = b.y - a.y; 
-
-        float rx = interactRange;
-        float ry = interactRange * IsometricSquashFactor;
-
-        float metric = (dx * dx) / (rx * rx) + (dy * dy) / (ry * ry);
-        return metric;
-    }
-    
     public static void Register(IInteractable interactable)
     {
-        if (!allInteractables.Contains(interactable))
+        if (!AllInteractables.Contains(interactable))
         {
-            allInteractables.Add(interactable);
+            AllInteractables.Add(interactable);
         }
     }
 
     public static void Deregister(IInteractable interactable)
     {
-        allInteractables.Remove(interactable);
+        AllInteractables.Remove(interactable);
     }
     
     private void OnDrawGizmos()
@@ -121,7 +103,7 @@ public class PlayerInteract : MonoBehaviour
         Vector3 center = transform.position;
         int segments = 32;
         
-        const float isometricSquashFactor = IsometricSquashFactor; // Use the constant
+        const float isometricSquashFactor = 0.5f;
 
         Vector3 lastPoint = Vector3.zero;
         Vector3 firstPoint = Vector3.zero;

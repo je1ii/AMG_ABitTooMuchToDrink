@@ -48,7 +48,8 @@ MonoBehaviour:
   horizontalVelocity: {x: 0, y: 0}
   gravity: 20
   groundY: 0
-  lifeAfterStop: 0.5
+  lifeAfterStop: 1
+  hitRange: 0.8
 --- !u!1 &4632168211465710525
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,8 +126,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1608368123
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 3625043607559282579, guid: 19fb86013d8c24d6cb8410c0aadf30fa, type: 3}
   m_Color: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
