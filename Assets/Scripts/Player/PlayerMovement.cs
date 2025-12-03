@@ -27,9 +27,9 @@ public class PlayerMovement : MonoBehaviour
     
     public Vector2 CartesianFacingDirection { get; private set; } = Vector2.up; 
     
-    //private bool isJumping = false;
+    private bool isJumping = false;
     private float verticalVelocity = 0f;
-    private float currentHeight = 0f;  
+    [SerializeField] private float currentHeight = 0f;  
     private Vector3 worldPosition; 
     
     private float hvX = 0f; 
@@ -37,7 +37,8 @@ public class PlayerMovement : MonoBehaviour
 
     private float baseSpeed;
     
-    public Vector3 GetWorldPosition() => worldPosition; 
+    public Vector3 GetWorldPosition() => worldPosition;
+    public bool GetIsJumping() => isJumping;
 
     void Start()
     {
@@ -166,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
         {
             verticalVelocity = jumpForce;
             moveSpeed += speedBoost;
-            //isJumping = true;
+            isJumping = true;
         }
 
         if (currentHeight > 0 || verticalVelocity > 0)
@@ -174,14 +175,14 @@ public class PlayerMovement : MonoBehaviour
             verticalVelocity -= gravity * Time.deltaTime;
             currentHeight += verticalVelocity * Time.deltaTime;
 
-            if (currentHeight >= 1.5f)
+            if (currentHeight >= 0.8f)
                 moveSpeed = baseSpeed;
             
             if (currentHeight < 0)
             {
                 currentHeight = 0;
                 verticalVelocity = 0;
-                //isJumping = false;
+                isJumping = false;
             }
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HealthBar : MonoBehaviour
 {
@@ -95,7 +96,32 @@ public class HealthBar : MonoBehaviour
         primaryBar.fillAmount = _currentHealth / maxHealth;
         secondaryBar.fillAmount = _ghostHealth / maxHealth;
     }
+
+    private IEnumerator InvulnerableTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+        isInvulnerable = false;
+    }
+
+    public void StartTimer(float time)
+    {
+        StartCoroutine(InvulnerableTimer(time));
+    }
+
+    private IEnumerator PlayerDied()
+    {
+        Debug.Log("Player died.");
+        yield return new WaitForSeconds(1.5f);
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void KillPlayer()
+    {
+        StartCoroutine(PlayerDied());
+    }
     
+    // ReSharper disable Unity.PerformanceAnalysis
     public void TakeDamage(float damage)
     {
         // checks if is already dead
@@ -112,10 +138,9 @@ public class HealthBar : MonoBehaviour
         _drainTimer = 0f;
         _state = State.Draining;
 
-        // if died, notify parent
         if (_currentHealth <= 0f)
         {
-            // TODO: insert death function
+            StartCoroutine(PlayerDied());
         }
     }
 
@@ -126,17 +151,6 @@ public class HealthBar : MonoBehaviour
         _currentHealth += amount;
         
         return true;
-    }
-
-    private IEnumerator InvulnerableTimer(float time)
-    {
-        yield return new WaitForSeconds(time);
-        isInvulnerable = false;
-    }
-
-    public void StartTimer(float time)
-    {
-        StartCoroutine(InvulnerableTimer(time));
     }
 
     public void TestDamage()
