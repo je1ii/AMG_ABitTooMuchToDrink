@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BeerItem: MonoBehaviour, IInteractable
 {
-    [SerializeField] private BeerData beerData;
+    [SerializeField] private BottleData bottleData;
     [SerializeField] private SpriteRenderer sr;
     
     private void OnEnable()
@@ -34,9 +35,9 @@ public class BeerItem: MonoBehaviour, IInteractable
     public void Interact(GameObject interactor)
     {
         InventorySystem inv = interactor.GetComponent<InventorySystem>();
-        if(inv.AddItem(beerData, beerData.beerAmount))
+        if(inv.AddItem(bottleData, bottleData.amount))
         {
-            Debug.Log(interactor.name + $" added {beerData.name} to their inventory.");
+            Debug.Log(interactor.name + $" added {bottleData.name} to their inventory.");
             Destroy(this.gameObject);
         }
         else

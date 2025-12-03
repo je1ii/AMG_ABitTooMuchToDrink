@@ -14,7 +14,7 @@ public class PowerUpItem : MonoBehaviour, IInteractable
     {
         PlayerInteract.Deregister(this);
     }
-    
+
     public GameObject GetGameObject()
     {
         return this.gameObject;
@@ -34,8 +34,7 @@ public class PowerUpItem : MonoBehaviour, IInteractable
     {
         if (powerUpData != null)
         {
-            powerUpData.ExecuteInteraction(interactor);
-            Destroy(gameObject);
+            powerUpData.ExecuteInteraction(interactor, this.gameObject);
         }
         else
         {

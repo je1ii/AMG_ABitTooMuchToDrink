@@ -8,9 +8,9 @@ public class PlayerInteract : MonoBehaviour
     private const float IsometricSquashFactor = 0.5f; 
     
     [SerializeField] private float interactRange = 2f;
-    [SerializeField] private List<IInteractable> itemsInRange = new List<IInteractable>();
+    private List<IInteractable> itemsInRange = new List<IInteractable>();
 
-    [SerializeField] private IInteractable interactTarget;
+    private IInteractable interactTarget;
     private PlayerThrow pt;
 
     private void Start()

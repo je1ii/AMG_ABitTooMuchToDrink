@@ -1,14 +1,18 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
+    public static HealthBar Instance { get; private set; }
+    
     [Header("UI")]
     [SerializeField] private Image primaryBar;   // instant bar (shows current HP)
     [SerializeField] private Image secondaryBar; // ghost/delayed bar
 
     [Header("Health")]
     [SerializeField] private float maxHealth; // total hp of enemy
+    [SerializeField] private bool isInvulnerable;
 
     [Header("Damage / Drain")]
     [Range(0.05f, 2f)]
@@ -21,8 +25,26 @@ public class HealthBar : MonoBehaviour
     private float _drainStartHealth;
     private float _drainTargetHealth;
 
-    private enum State { Idle, Draining, Regenerating }
+    private enum State { Idle, Draining}
     private State _state = State.Idle;
+    
+    public void SetInvulnerable(bool value) => isInvulnerable = value;
+
+    public bool GetInvulnerableValue()
+    {
+        return isInvulnerable;
+    }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        Instance = this;
+    }
 
     void Start()
     {
@@ -31,8 +53,9 @@ public class HealthBar : MonoBehaviour
         _ghostHealth = maxHealth;
         _drainTimer = 0f;
 
-        if (primaryBar != null) primaryBar.fillAmount = 1f;
-        if (secondaryBar != null) secondaryBar.fillAmount = 1f;
+        isInvulnerable = false;
+
+        if (primaryBar != null && secondaryBar != null) UpdateUI();
     }
 
     void Update()
@@ -47,24 +70,30 @@ public class HealthBar : MonoBehaviour
                 _drainTimer += dt;
                 var drainTime = Mathf.Clamp01(_drainTimer / Mathf.Max(0.0001f, timeToDrain));
                 _ghostHealth = Mathf.Lerp(_drainStartHealth, _drainTargetHealth, drainTime);
-                secondaryBar.fillAmount = _ghostHealth / maxHealth;
-
-                // keep primary showing the immediate value
-                primaryBar.fillAmount = _currentHealth / maxHealth;
+                UpdateUI();
 
                 if (drainTime >= 1f)
                 {
-                    // finished draining -> go to idle and start regen timer
                     _state = State.Idle;
                 }
                 break;
 
             case State.Idle:
                 // both bars show current amounts
-                primaryBar.fillAmount = _currentHealth / maxHealth;
-                secondaryBar.fillAmount = _ghostHealth / maxHealth;
+                UpdateUI();
                 break;
         }
+
+        if (isInvulnerable)
+        {
+            IntoxicationBar.Instance.ResetIntoxication();
+        }
+    }
+    
+    private void UpdateUI()
+    {
+        primaryBar.fillAmount = _currentHealth / maxHealth;
+        secondaryBar.fillAmount = _ghostHealth / maxHealth;
     }
     
     public void TakeDamage(float damage)
@@ -72,11 +101,10 @@ public class HealthBar : MonoBehaviour
         // checks if is already dead
         if (_currentHealth <= 0f) return;
 
+        if (isInvulnerable) return;
+
         // apply damage
         _currentHealth -= damage;
-
-        // update primary immediately
-        primaryBar.fillAmount = _currentHealth / maxHealth;
 
         // setup drain from current ghost value toward the new health
         _drainStartHealth = _ghostHealth;
@@ -89,5 +117,30 @@ public class HealthBar : MonoBehaviour
         {
             // TODO: insert death function
         }
+    }
+
+    public bool Heal(float amount)
+    {
+        if (_currentHealth <= 0f || _currentHealth >= maxHealth) return false;
+        
+        _currentHealth += amount;
+        
+        return true;
+    }
+
+    private IEnumerator InvulnerableTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+        isInvulnerable = false;
+    }
+
+    public void StartTimer(float time)
+    {
+        StartCoroutine(InvulnerableTimer(time));
+    }
+
+    public void TestDamage()
+    {
+        TakeDamage(1f);
     }
 }

@@ -13,19 +13,22 @@ public class PlayerThrow : MonoBehaviour
     
     private bool isThrowing = false;
     
-    private PlayerHands hands;
     private InventorySystem invSys;
+    private PlayerHands hands;
     private PlayerMovement movement;
+    private PlayerConsumption consumption;
+    
     void Start()
     {
         invSys = GetComponent<InventorySystem>();
         hands = GetComponent<PlayerHands>();
         movement = GetComponent<PlayerMovement>();
+        consumption = GetComponent<PlayerConsumption>();
     }
 
     public IEnumerator ThrowBeer()
     {
-        BeerData toThrow = hands.Throwing();
+        BottleData toThrow = hands.Throwing();
 
         if (toThrow == null)
         {
@@ -35,7 +38,7 @@ public class PlayerThrow : MonoBehaviour
 
         yield return new WaitForSeconds(throwDelay);
 
-        if (toThrow.beerProjectile == null)
+        if (toThrow.bottleProjectile == null)
         {
             Debug.Log("Beer projectile is not assigned");
             isThrowing = false;
@@ -57,7 +60,7 @@ public class PlayerThrow : MonoBehaviour
         );
 
         GameObject obj = Instantiate(
-            toThrow.beerProjectile,
+            toThrow.bottleProjectile,
             finalVisualSpawnPos,
             Quaternion.identity
         );
@@ -97,18 +100,34 @@ public class PlayerThrow : MonoBehaviour
 
     public void ReadyThrow()
     {
+        if(!consumption.isConsuming) return;
+        
         int totalBeer = invSys.TotalAll();
         if (totalBeer <= 0) return;
         
         if (hands.IsRightEmpty)
         {
-            InventorySlot slot = invSys.FirstSlotOfType("Molotov");
-            if (slot == null) slot = invSys.FirstSlotOfType("Beer");
+            InventorySlot slot = invSys.GetSlotOfType("Molotov");
+            if (slot == null) slot = invSys.GetSlotOfType("Empty Bottle");
+            if (slot == null) slot = invSys.GetSlotOfType("Beer");
             
-            BeerData beer = slot.TakeOne();
+            BottleData beer = slot.TakeOne();
             if (beer == null)return;
             
             hands.HoldOnRight(beer);
+            Debug.Log(this.gameObject.name + $" equipped {beer.name} on their right hand.");
+        }
+
+        if (!hands.IsRightEmpty && (hands.rightHand.id == "Beer" || hands.rightHand.id == "Empty Bottle"))
+        {
+            InventorySlot slot = invSys.GetSlotOfType("Molotov");
+            if (slot == null) return;
+            
+            BottleData beer = slot.TakeOne();
+            if (beer == null)return;
+            
+            hands.HoldOnRight(beer);
+            Debug.Log(this.gameObject.name + $" switched {beer.name} on their right hand.");
         }
     }
 }

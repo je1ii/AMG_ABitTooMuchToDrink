@@ -3,8 +3,8 @@ using UnityEngine;
 public abstract class PowerUpData : ScriptableObject
 {
     [Header("Base Interaction Data")]
-    public string ItemName = "Power-Up";
-    public string InteractionVerb = "Activate";
+    public string id = "PowerUp";
+    
 
-    public abstract void ExecuteInteraction(GameObject interactor);
+    public abstract void ExecuteInteraction(GameObject interactor, GameObject item);
 }

@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class IntoxicationBar : MonoBehaviour
 {
+    public static IntoxicationBar Instance { get; private set; }
+    
     [Header("UI")] 
     [SerializeField] private Image primaryBar;
     [SerializeField] private Image secondaryBar;
@@ -31,7 +33,18 @@ public class IntoxicationBar : MonoBehaviour
 
     enum BarState { Idle, Draining, Sobering }
     private BarState barState = BarState.Idle;
-
+    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        Instance = this;
+    }
+    
     void Start()
     {
         currentIntoxication = 0f;
@@ -39,7 +52,7 @@ public class IntoxicationBar : MonoBehaviour
         drainTimer = 0f;
         soberTimer = 0f;
         
-        UpdateUI();
+        if (primaryBar != null && secondaryBar != null) UpdateUI();
     }
 
     void Update()
@@ -128,5 +141,21 @@ public class IntoxicationBar : MonoBehaviour
         soberTimer = 0f;
         
         if(currentIntoxication >= maxIntoxication) currentIntoxication = maxIntoxication;
+    }
+
+    public void ResetIntoxication()
+    {
+        float temp = currentIntoxication;
+        currentIntoxication -= temp;
+        UpdateUI();
+
+        drainStart = ghostIntoxication;
+        drainTarget = currentIntoxication;
+        drainTimer = 0f;
+        barState = BarState.Draining;
+        
+        soberTimer = 0f;
+
+        if (currentIntoxication <= 0) currentIntoxication = 0;
     }
 }

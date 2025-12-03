@@ -1,24 +1,25 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public class InventorySlot
 {
-    public BeerData beerData;
+    public BottleData bottleData;
     public int amount;
     
-    public bool hasBeer => beerData != null && amount > 0;
+    public bool hasBeer => bottleData != null && amount > 0;
 
-    public InventorySlot(BeerData data, int amount)
+    public InventorySlot(BottleData beer, int amount)
     {
-        beerData = data;
+        bottleData = beer;
         this.amount = amount;
     }
 
-    public BeerData TakeOne()
+    public BottleData TakeOne()
     {
         if (!hasBeer) return null;
         
         amount--;
-        return beerData;
+        return bottleData;
     }
 }

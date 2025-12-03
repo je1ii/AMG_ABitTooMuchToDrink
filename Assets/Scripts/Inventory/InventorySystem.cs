@@ -5,27 +5,22 @@ public class InventorySystem : MonoBehaviour
 {
     [SerializeField] private List<InventorySlot> inventorySlots;
     [SerializeField] private int maxSlots = 3;
-
-    private PlayerConsumption pc;
     
     // add item in player's inventory
-    public bool AddItem(BeerData beerData, int amount)
+    public bool AddItem(BottleData beer, int amount)
     {
-        pc = GetComponent<PlayerConsumption>();
         foreach (var slot in inventorySlots)
         {
-            if (slot.beerData == beerData)
+            if (slot.bottleData.id == beer.id)
             {
                 slot.amount += amount;
-                if(!pc.isConsuming) pc.StartConsuming();
                 return true;
             }
         }
 
         if (inventorySlots.Count < maxSlots)
         {
-            inventorySlots.Add(new InventorySlot(beerData, amount));
-            if(!pc.isConsuming) pc.StartConsuming();
+            inventorySlots.Add(new InventorySlot(beer, amount));
             return true;
         }
         
@@ -39,7 +34,7 @@ public class InventorySystem : MonoBehaviour
 
         foreach (var slot in inventorySlots)
         {
-            if (slot.beerData != null)
+            if (slot.bottleData != null)
             {
                 total += slot.amount;
             }
@@ -51,10 +46,10 @@ public class InventorySystem : MonoBehaviour
     public int TotalOfType(string beerID)
     {
         int total = 0;
-
+        
         foreach (var slot in inventorySlots)
         {
-            if (slot.beerData != null && slot.beerData.id == beerID)
+            if (slot.bottleData != null && slot.bottleData.id == beerID)
             {
                 total += slot.amount;
             }
@@ -63,15 +58,16 @@ public class InventorySystem : MonoBehaviour
         return total;
     }
     
-    public InventorySlot FirstSlotOfType(string beerID)
+    public InventorySlot GetSlotOfType(string beerID)
     {
         foreach (var slot in inventorySlots)
         {
-            if (slot.beerData != null && slot.beerData.id == beerID && slot.amount > 0)
+            if (slot.bottleData != null && slot.bottleData.id == beerID && slot.amount > 0)
             {
                 return slot;
             }
         }
+        
         return null;
     }
 }

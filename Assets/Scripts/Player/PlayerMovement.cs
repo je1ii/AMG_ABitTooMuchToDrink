@@ -3,19 +3,20 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 0;
+    [SerializeField] private float speedBoost = 6f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float gravity = 20f;
     [SerializeField] private float normalFriction = 0.8f; 
     
     [Header("State Settings")]
-     public bool isDizzy = false;
-     public bool isDrunk = false;
-     [SerializeField] private float dizzyFriction = 0.95f;
-     [SerializeField] private float drunkFriction = 0.98f;
-     [SerializeField] private float dizzyAcceleration = 3f;
-     [SerializeField] private float drunkAcceleration = 1.5f;
-     [SerializeField] private float dizzyInversionChance = 0.2f;
-     [SerializeField] private float drunkInversionChance = 0.5f;
+    public bool isDizzy = false;
+    public bool isDrunk = false;
+    [SerializeField] private float dizzyFriction = 0.95f;
+    [SerializeField] private float drunkFriction = 0.98f;
+    [SerializeField] private float dizzyAcceleration = 3f; 
+    [SerializeField] private float drunkAcceleration = 1.5f;
+    [SerializeField] private float dizzyInversionChance = 0.2f;
+    [SerializeField] private float drunkInversionChance = 0.5f;
     
     [Header("Reference")]
     [SerializeField] private Transform spriteTransform;
@@ -28,13 +29,16 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 worldPosition; 
     
     private float hvX = 0f; 
-    private float hvY = 0f; 
+    private float hvY = 0f;
+
+    private float baseSpeed;
     
     public Vector3 GetWorldPosition() => worldPosition; 
 
     void Start()
     {
         worldPosition = transform.position;
+        baseSpeed = moveSpeed;
     }
     void Update()
     {
@@ -157,6 +161,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && currentHeight == 0)
         {
             verticalVelocity = jumpForce;
+            moveSpeed += speedBoost;
             //isJumping = true;
         }
 
@@ -165,6 +170,9 @@ public class PlayerMovement : MonoBehaviour
             verticalVelocity -= gravity * Time.deltaTime;
             currentHeight += verticalVelocity * Time.deltaTime;
 
+            if (currentHeight >= 1.5f)
+                moveSpeed = baseSpeed;
+            
             if (currentHeight < 0)
             {
                 currentHeight = 0;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class PlayerConsumption : MonoBehaviour
@@ -16,6 +17,8 @@ public class PlayerConsumption : MonoBehaviour
     [SerializeField] private float fastTime = 3f;
     
     public bool isConsuming;
+    private BottleData takenBeer;
+    private bool isBeerTaken = false;
     private InventorySystem invSys;
     private PlayerHands hands;
     
@@ -23,6 +26,30 @@ public class PlayerConsumption : MonoBehaviour
     {
         invSys = GetComponent<InventorySystem>();
         hands = GetComponent<PlayerHands>();
+    }
+
+    void Update()
+    {
+        int totalBeer = invSys.TotalOfType("Beer");
+        if (!isConsuming && totalBeer > 0 && !HealthBar.Instance.GetInvulnerableValue())
+        {
+            StartCoroutine(Consuming());
+        }
+        
+        // if consuming but became invulnerable, put back beer in inventory
+        if (HealthBar.Instance.GetInvulnerableValue() && isConsuming)
+        {
+            if(isBeerTaken)
+            {
+                invSys.AddItem(takenBeer, takenBeer.amount);
+                isBeerTaken = false;
+                takenBeer = null;
+            }
+
+            isConsuming = false;
+            StopCoroutine(Consuming());
+        }
+        
     }
     
     // consumes one beer
@@ -38,16 +65,24 @@ public class PlayerConsumption : MonoBehaviour
                 yield break;
             }
             
-            InventorySlot slot = invSys.FirstSlotOfType("Beer");
-            BeerData beer = slot.TakeOne();
-            if(hands.IsLeftEmpty) hands.HoldOnLeft(beer);
+            InventorySlot slot = invSys.GetSlotOfType("Beer");
+            takenBeer = slot.TakeOne();
+            
+            if(takenBeer != null)
+                isBeerTaken = true;
+            
+            if(hands.IsLeftEmpty) hands.HoldOnLeft(takenBeer);
             
             Debug.Log("Consuming beer...");
             yield return new WaitForSeconds(SetCorrectTimer(totalBeer));
-            
-            bar.DoneConsuming(beer.intoxicationValue);
+
+            invSys.AddItem(takenBeer.emptyBottle, takenBeer.emptyBottle.amount);
+            bar.DoneConsuming(takenBeer.intoxicationValue);
             if(!hands.IsLeftEmpty) hands.RemoveOnLeft();
-            Debug.Log("Done consuming, added intoxication value: " + beer.intoxicationValue);
+            Debug.Log("Done consuming, added intoxication value: " + takenBeer.intoxicationValue);
+            
+            takenBeer = null;
+            isBeerTaken = false;
         }
     }
 
@@ -56,10 +91,5 @@ public class PlayerConsumption : MonoBehaviour
         if (total >= fastCondition) return fastTime;
         else if (total >= normalCondition) return normalTime;
         else return slowTime;
-    }
-
-    public void StartConsuming()
-    {
-        StartCoroutine(Consuming());
     }
 }
