@@ -29,6 +29,18 @@ TextureImporter:
   - first:
       213: 3247610192725619376
     second: ObstacleSheet_8
+  - first:
+      213: -7731791421857385840
+    second: ObstacleSheet_9
+  - first:
+      213: -5453013153255488642
+    second: ObstacleSheet_10
+  - first:
+      213: -3574675058713418835
+    second: ObstacleSheet_11
+  - first:
+      213: -3550097076408295820
+    second: ObstacleSheet_12
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -127,10 +139,10 @@ TextureImporter:
       name: ObstacleSheet_0
       rect:
         serializedVersion: 2
-        x: 18
-        y: 63
-        width: 12
-        height: 18
+        x: 31
+        y: 79
+        width: 18
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,10 +161,10 @@ TextureImporter:
       name: ObstacleSheet_1
       rect:
         serializedVersion: 2
-        x: 47
-        y: 65
-        width: 17
-        height: 11
+        x: 245
+        y: 15
+        width: 6
+        height: 67
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,9 +183,9 @@ TextureImporter:
       name: ObstacleSheet_2
       rect:
         serializedVersion: 2
-        x: 82
+        x: 15
         y: 63
-        width: 12
+        width: 18
         height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -193,10 +205,10 @@ TextureImporter:
       name: ObstacleSheet_3
       rect:
         serializedVersion: 2
-        x: 134
-        y: 63
-        width: 20
-        height: 12
+        x: 47
+        y: 65
+        width: 17
+        height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,10 +227,10 @@ TextureImporter:
       name: ObstacleSheet_4
       rect:
         serializedVersion: 2
-        x: 173
-        y: 15
-        width: 49
-        height: 61
+        x: 82
+        y: 63
+        width: 12
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,10 +249,10 @@ TextureImporter:
       name: ObstacleSheet_5
       rect:
         serializedVersion: 2
-        x: 245
-        y: 15
-        width: 6
-        height: 67
+        x: 134
+        y: 63
+        width: 20
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -259,10 +271,10 @@ TextureImporter:
       name: ObstacleSheet_6
       rect:
         serializedVersion: 2
-        x: 15
-        y: 47
-        width: 18
-        height: 14
+        x: 173
+        y: 15
+        width: 49
+        height: 61
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -321,6 +333,94 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: ObstacleSheet_9
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 31
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09237c6aaa823b490800000000000000
+      internalID: -7731791421857385840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ObstacleSheet_10
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 31
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e738cacad610354b0800000000000000
+      internalID: -5453013153255488642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ObstacleSheet_11
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 31
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da320f939f3346ec0800000000000000
+      internalID: -3574675058713418835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ObstacleSheet_12
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 31
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47ed78aa4858bbec0800000000000000
+      internalID: -3550097076408295820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -337,6 +437,9 @@ TextureImporter:
     nameFileIdTable:
       ObstacleSheet_0: -9135530082327303573
       ObstacleSheet_1: -8321259692816262172
+      ObstacleSheet_10: -5453013153255488642
+      ObstacleSheet_11: -3574675058713418835
+      ObstacleSheet_12: -3550097076408295820
       ObstacleSheet_2: 3139209318333302795
       ObstacleSheet_3: 4571599833527055444
       ObstacleSheet_4: -1009750258241627911
@@ -344,6 +447,7 @@ TextureImporter:
       ObstacleSheet_6: 5179098706834690056
       ObstacleSheet_7: 551248266231206523
       ObstacleSheet_8: 3247610192725619376
+      ObstacleSheet_9: -7731791421857385840
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
