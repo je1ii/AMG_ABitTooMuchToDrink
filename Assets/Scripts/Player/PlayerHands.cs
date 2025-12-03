@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class PlayerHands : MonoBehaviour
 {
-    public BeerData rightHand;
-    public BeerData leftHand;
+    public BottleData rightHand;
+    public BottleData leftHand;
     
     public bool IsRightEmpty => rightHand == null;
     public bool IsLeftEmpty => leftHand == null;
     
-    public void HoldOnLeft(BeerData beer)
+    public void HoldOnLeft(BottleData beer)
     {
         leftHand = beer;
     }
     
-    public void HoldOnRight(BeerData beer)
+    public void HoldOnRight(BottleData beer)
     {
         rightHand = beer;
     }
@@ -23,9 +23,9 @@ public class PlayerHands : MonoBehaviour
         leftHand = null;
     }
 
-    public BeerData Throwing()
+    public BottleData Throwing()
     {
-        BeerData temp = rightHand;
+        BottleData temp = rightHand;
         rightHand = null;
         return temp;
     }
