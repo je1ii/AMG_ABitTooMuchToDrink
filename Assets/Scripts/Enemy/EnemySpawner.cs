@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
     [Header("References")]
     [SerializeField] private List<EnemyData> availableEnemies = new List<EnemyData>();
     [SerializeField] private GameObject playerTarget;
+    [SerializeField] private Transform parent;
 
     [Header("Spawn Settings")]
     [SerializeField] private Vector3 spawnBaseCartesianPosition = new Vector3(30f, 30f, 0f);
@@ -115,7 +116,7 @@ public class EnemySpawner : MonoBehaviour
                 enemyToSpawn.prefab,
                 initialVisualPos,
                 Quaternion.identity,
-                transform
+                parent
             );
         
             EnemyMovement movement = enemyObj.GetComponent<EnemyMovement>();
