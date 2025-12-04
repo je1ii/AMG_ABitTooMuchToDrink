@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 7869006618122358090}
   - component: {fileID: 5317256132035972686}
   - component: {fileID: 9088538299462004797}
+  - component: {fileID: 4750135546969347130}
   m_Layer: 0
   m_Name: GreenEnemy
   m_TagString: Untagged
@@ -152,3 +153,17 @@ MonoBehaviour:
   moveSpeed: 3
   damage: 1
   stoppingDistance: 0.2
+--- !u!114 &4750135546969347130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7502492942690701408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 6493007992990366200}
+  isInteractable: 0

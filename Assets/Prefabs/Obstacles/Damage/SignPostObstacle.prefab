@@ -100,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3751104954548538902}
   - component: {fileID: 3772281125946023488}
+  - component: {fileID: -3068800017816466790}
   m_Layer: 0
   m_Name: SignPostObstacle
   m_TagString: Untagged
@@ -136,3 +137,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleItem
   obstacleData: {fileID: 11400000, guid: 1f5258e5d81c2844196b04b62049cd7a, type: 2}
+--- !u!114 &-3068800017816466790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8792909138725108973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 5724929780681752765}

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaterData
   id: Water
   healAmount: 1
+  soberAmount: 4

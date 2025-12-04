@@ -100,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1292451236704069045}
   - component: {fileID: 570204326513740188}
+  - component: {fileID: 956758622240039308}
   m_Layer: 0
   m_Name: Lighter
   m_TagString: Untagged
@@ -137,3 +138,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpItem
   powerUpData: {fileID: 11400000, guid: fd2e14292e1a1ca4383560f1657e6ad1, type: 2}
   sr: {fileID: 3325568449796589223}
+--- !u!114 &956758622240039308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5324208444074686454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 4517238534748891168}
+  isInteractable: 1

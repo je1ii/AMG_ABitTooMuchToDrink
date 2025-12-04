@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8435503144572841138}
   - component: {fileID: 8778709880271126304}
+  - component: {fileID: -4976441304323672675}
   m_Layer: 0
   m_Name: TrashBagObstacle
   m_TagString: Untagged
@@ -46,6 +47,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleItem
   obstacleData: {fileID: 11400000, guid: 68a2d2d6114485c46b04b21f71e3faf4, type: 2}
+--- !u!114 &-4976441304323672675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164755492285897020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 7436551052360249521}
 --- !u!1 &3264091647571331816
 GameObject:
   m_ObjectHideFlags: 0

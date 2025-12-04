@@ -97,6 +97,7 @@ public class BeerProjectile : MonoBehaviour
 
         foreach (EnemyHealth enemy in enemiesInScene)
         {
+            if(enemy == null) continue;
             GameObject enemyGameObject = enemy.gameObject;
             float metric = Utils.CalculateMetric(this.gameObject,enemyGameObject.transform, hitRange);
             

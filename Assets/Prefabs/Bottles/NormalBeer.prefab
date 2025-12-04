@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8064129332969907178}
   - component: {fileID: 2950033001942334006}
+  - component: {fileID: -3737136165389554134}
   m_Layer: 0
   m_Name: NormalBeer
   m_TagString: Beer
@@ -47,6 +48,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BeerItem
   bottleData: {fileID: 11400000, guid: 1d21d70950b43464e9f2e578773a0035, type: 2}
   sr: {fileID: 3419276396713621711}
+--- !u!114 &-3737136165389554134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145812561503197173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 7269841058299125068}
+  isInteractable: 1
 --- !u!1 &535544547862918169
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,7 +142,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 3625043607559282579, guid: 19fb86013d8c24d6cb8410c0aadf30fa, type: 3}
-  m_Color: {r: 0, g: 0.70425534, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.6675987, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

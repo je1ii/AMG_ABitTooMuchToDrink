@@ -5,11 +5,15 @@ using UnityEngine;
 public class PlayerThrow : MonoBehaviour
 {
     private static readonly List<EnemyHealth> AllEnemies = new List<EnemyHealth>();
+    
     [Header("Throw Settings")]
     [SerializeField] private float throwForwardSpeed = 8f;
     [SerializeField] private float throwUpwardSpeed = 0f;
     [SerializeField] private float throwDelay = 0.2f;
     [SerializeField] private float throwCooldown = 2f;
+    
+    [Header("Reference")]
+    [SerializeField] private Transform parent;
     
     private bool isThrowing = false;
     
@@ -65,7 +69,8 @@ public class PlayerThrow : MonoBehaviour
         GameObject obj = Instantiate(
             toThrow.bottleProjectile,
             finalVisualSpawnPos,
-            Quaternion.identity
+            Quaternion.identity, 
+            parent
         );
 
         BeerProjectile projectile = obj.GetComponent<BeerProjectile>();

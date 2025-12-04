@@ -100,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6452188142479386131}
   - component: {fileID: 3314357869720332810}
+  - component: {fileID: 1276305078084532113}
   m_Layer: 0
   m_Name: PuddleObstacle
   m_TagString: Untagged
@@ -136,3 +137,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleItem
   obstacleData: {fileID: 11400000, guid: c62c19cdaa3cc4042a82370cd195a832, type: 2}
+--- !u!114 &1276305078084532113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2897685644701510315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 4300891278814251921}

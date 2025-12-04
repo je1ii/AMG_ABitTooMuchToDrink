@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7488944745255925637}
   - component: {fileID: 3848190153837751789}
+  - component: {fileID: -96721703106045936}
   m_Layer: 0
   m_Name: TableObstacle
   m_TagString: Untagged
@@ -46,6 +47,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleItem
   obstacleData: {fileID: 11400000, guid: e54c2cf16ac9cbb40b910dd776efd7b2, type: 2}
+--- !u!114 &-96721703106045936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129735237945344382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 3019970586617519914}
 --- !u!1 &8989828702441546833
 GameObject:
   m_ObjectHideFlags: 0

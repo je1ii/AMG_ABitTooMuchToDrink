@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
@@ -10,6 +11,18 @@ public class PlayerInteract : MonoBehaviour
 
     private IInteractable interactTarget;
     private PlayerThrow pt;
+
+    public static List<GameObject> GetAllBeers()
+    {
+        List<GameObject> beers = new List<GameObject>();
+        foreach (var item in AllInteractables)
+        {
+            BeerItem beerItem = item as BeerItem;
+            if (beerItem != null)
+                beers.Add(beerItem.gameObject);
+        }
+        return beers;
+    }
 
     private void Start()
     {

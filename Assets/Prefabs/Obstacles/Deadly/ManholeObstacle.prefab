@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2936386354805933667}
   - component: {fileID: 1431354957189737041}
+  - component: {fileID: 7195274816116795282}
   m_Layer: 0
   m_Name: ManholeObstacle
   m_TagString: Untagged
@@ -46,6 +47,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleItem
   obstacleData: {fileID: 11400000, guid: eee6265a2836a5845b6ad6498dad0274, type: 2}
+--- !u!114 &7195274816116795282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463884932951092401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 3476097664030042972}
 --- !u!1 &5998408048330609740
 GameObject:
   m_ObjectHideFlags: 0

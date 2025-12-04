@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2603486876260647822}
   - component: {fileID: 25460012472036702}
+  - component: {fileID: -2898789678215478717}
   m_Layer: 0
   m_Name: WaterBottle
   m_TagString: Untagged
@@ -47,6 +48,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpItem
   powerUpData: {fileID: 11400000, guid: e2aa4c69471b8c54897ddfc17d669f1b, type: 2}
   sr: {fileID: 3841707717389834390}
+--- !u!114 &-2898789678215478717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298956503318084838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 962393948083627354}
+  isInteractable: 1
 --- !u!1 &4097602112833149903
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravity = 20f;
     [SerializeField] private float normalFriction = 0.8f; 
     
+    [Header("Movement Bounds")]
+    [SerializeField] private float minLateralBound = -4f;
+    [SerializeField] private float maxLateralBound = 4f;
+    [SerializeField] private float minForwardBound = 0f;
+    [SerializeField] private float maxForwardBound = 10f;
+    
     [Header("State Settings")]
     public bool isDizzy = false;
     public bool isDrunk = false;
@@ -20,7 +26,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dizzyInversionChance = 0.2f;
     [SerializeField] private float drunkInversionChance = 0.5f;
     
-    [FormerlySerializedAs("spriteTransform")]
     [Header("Reference")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite[] characterSprites;
@@ -123,7 +128,12 @@ public class PlayerMovement : MonoBehaviour
         worldPosition.x += hvX * Time.deltaTime;
         worldPosition.y += hvY * Time.deltaTime;
         
-        //transform.position = new Vector3(worldPosition.x, worldPosition.y, worldPosition.z);
+        worldPosition.y = Mathf.Clamp(worldPosition.y, minLateralBound, maxLateralBound);
+
+        if (worldPosition.x > maxForwardBound && hvX > 0) hvX = 0;
+        if (worldPosition.x < minForwardBound && hvX < 0) hvX = 0;
+        
+        worldPosition.x = Mathf.Clamp(worldPosition.x, minForwardBound, maxForwardBound);
     }
     
     private void HandleAimingRotation()

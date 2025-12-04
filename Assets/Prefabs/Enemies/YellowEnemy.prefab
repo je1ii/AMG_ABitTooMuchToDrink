@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 1930216847671948673}
   - component: {fileID: 7666176418565410596}
   - component: {fileID: 3495334683271454220}
+  - component: {fileID: 5079198741367616195}
   m_Layer: 0
   m_Name: YellowEnemy
   m_TagString: Untagged
@@ -152,3 +153,17 @@ MonoBehaviour:
   moveSpeed: 3
   damage: 1
   stoppingDistance: 0.5
+--- !u!114 &5079198741367616195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8873000496840564411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 3739394392877062189}
+  isInteractable: 0

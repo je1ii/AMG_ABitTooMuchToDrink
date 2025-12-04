@@ -306,10 +306,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1d41ac8e27851a64a95785e0d1e956b3, type: 2}
   - {fileID: 11400000, guid: ad887af75f03b604bba7b2ab2fee81c4, type: 2}
   - {fileID: 11400000, guid: 150e33e57a2cce14c8ea3ec4bc4b33e4, type: 2}
-  - {fileID: 11400000, guid: c96cc7e43041b45418ccec72598c739f, type: 2}
+  - {fileID: 11400000, guid: ad887af75f03b604bba7b2ab2fee81c4, type: 2}
   playerTarget: {fileID: 891578753}
   parent: {fileID: 1033826210}
-  spawnBaseCartesianPosition: {x: 20, y: -1, z: 0}
+  spawnBaseCartesianPosition: {x: 20, y: 2, z: 0}
   spawnScatterRadius: 2
   spawnCap: 10
   defaultInterval: 5
@@ -761,7 +761,6 @@ MonoBehaviour:
   throwUpwardSpeed: 0
   throwDelay: 0.2
   throwCooldown: 2.5
-  parent: {fileID: 1033826210}
 --- !u!114 &891578762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1482,15 +1481,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2585fac9bd9e34e4d832a667a1614583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeerSpawner
+  existingBeers: []
   beerPrefab: {fileID: 145812561503197173, guid: 0ba60ae42e5c4cd4eb55e97728094b84, type: 3}
   parent: {fileID: 1033826210}
   player: {fileID: 891578753}
-  spawnBaseCartesianPosition: {x: 10, y: -1, z: 0}
-  spawnScatterRadius: 3.5
-  spawnCap: 30
-  defaultInterval: 2
-  dizzyInterval: 3
-  drunkInterval: 3.5
+  spawnBaseCartesianPosition: {x: 10, y: 1, z: 0}
+  spawnScatterRadius: 2
+  spawnCap: 20
+  defaultInterval: 3
+  dizzyInterval: 3.5
+  drunkInterval: 4
 --- !u!4 &2088681194
 Transform:
   m_ObjectHideFlags: 0
@@ -1500,7 +1500,7 @@ Transform:
   m_GameObject: {fileID: 2088681192}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2.77517, y: 5.45506, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

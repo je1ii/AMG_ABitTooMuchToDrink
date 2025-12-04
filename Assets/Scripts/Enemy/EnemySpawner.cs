@@ -18,8 +18,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float dizzyInterval = 2f;
     [SerializeField] private float drunkInterval = 1f;
     
-    private bool isSpawning = false;
-    private float spawnTimer;
+    private Coroutine spawnCoroutine = null; 
     private float totalWeight;
     
     private PlayerMovement pm;
@@ -33,31 +32,31 @@ public class EnemySpawner : MonoBehaviour
         
         CalculateTotalWeight();
         pm = playerTarget.GetComponent<PlayerMovement>();
+        
+        if (pm != null && spawnCoroutine == null)
+        {
+            spawnCoroutine = StartCoroutine(SpawnEnemyLoop());
+        }
     }
 
     void Update()
     {
-        switch (isSpawning)
+        SetWeightWithState();
+        int currentEnemies = PlayerThrow.GetEnemiesCount();
+
+        if (currentEnemies >= spawnCap)
         {
-            case true:
+            if (spawnCoroutine != null)
             {
-                if (PlayerThrow.GetEnemiesCount() == spawnCap)
-                {
-                    StopCoroutine(SpawnEnemy());
-                    isSpawning = false;
-                }
-
-                break;
+                StopCoroutine(spawnCoroutine);
+                spawnCoroutine = null;
             }
-            case false:
+        }
+        else
+        {
+            if (spawnCoroutine == null)
             {
-                if (PlayerThrow.GetEnemiesCount() < spawnCap)
-                {
-                    StartCoroutine(SpawnEnemy());
-                    isSpawning = true;
-                }
-
-                break;
+                spawnCoroutine = StartCoroutine(SpawnEnemyLoop());
             }
         }
     }
@@ -95,19 +94,24 @@ public class EnemySpawner : MonoBehaviour
         return availableEnemies[availableEnemies.Count - 1]; 
     }
     
-    private IEnumerator SpawnEnemy()
+    private IEnumerator SpawnEnemyLoop()
     {
         while(true)
         {
             EnemyData enemyToSpawn = GetWeightedRandomEnemy();
 
-            if (enemyToSpawn == null || enemyToSpawn.prefab == null || playerTarget == null) yield break;
+            if (enemyToSpawn == null || enemyToSpawn.prefab == null || playerTarget == null)
+            {
+                yield return new WaitForSeconds(defaultInterval); 
+                continue;
+            }
 
             Vector3 scatter = new Vector3(
                 Random.Range(-spawnScatterRadius, spawnScatterRadius),
                 Random.Range(-spawnScatterRadius, spawnScatterRadius),
                 0f
             );
+            
             Vector3 finalSpawnCartesianPos = spawnBaseCartesianPosition + scatter;
         
             Vector3 initialVisualPos = Utils.CartesianToIsometric(finalSpawnCartesianPos);
@@ -133,6 +137,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 health.AssignHealth(enemyToSpawn.health);
                 health.AssignDrops(enemyToSpawn.drops);
+                health.AssignParent(parent);
             }
         
             Debug.Log($"Spawned: {enemyToSpawn.enemyID}");
@@ -143,6 +148,8 @@ public class EnemySpawner : MonoBehaviour
 
     private float GetCorrectInterval()
     {
+        if (pm == null) return defaultInterval;
+        
         if (pm.isDrunk)
             return drunkInterval;
         if (pm.isDizzy)
@@ -151,18 +158,23 @@ public class EnemySpawner : MonoBehaviour
         return defaultInterval;
     }
     
-    public void AdjustSpawnWeight(string enemyName, float newWeight)
+    private void SetWeightWithState()
     {
-        EnemyData data = availableEnemies.Find(e => e.enemyID == enemyName);
+        if (pm.isDrunk)
+            AdjustSpawnWeight("Green", 5f);
+        if (pm.isDizzy)
+            AdjustSpawnWeight("Green", 2f);
+        else
+            AdjustSpawnWeight("Green", 0f);
+    }
+
+    private void AdjustSpawnWeight(string enemyID, float newWeight)
+    {
+        EnemyData data = availableEnemies.Find(e => e.enemyID == enemyID);
         if (data != null)
         {
             data.spawnWeight = newWeight;
             CalculateTotalWeight();
-            Debug.Log($"Weight for {enemyName} adjusted to {newWeight}. Total weight recalculated.");
-        }
-        else
-        {
-            Debug.LogWarning($"Enemy '{enemyName}' not found in available enemies list.");
         }
     }
 }

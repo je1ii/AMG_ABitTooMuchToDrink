@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3558640385901867815}
   - component: {fileID: 8308938853727093504}
+  - component: {fileID: 4644158357236023680}
   m_Layer: 0
   m_Name: LampPostObstacle
   m_TagString: Untagged
@@ -46,6 +47,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleItem
   obstacleData: {fileID: 11400000, guid: c80d124eb5ea9574f8ee49876e8fb4b8, type: 2}
+--- !u!114 &4644158357236023680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4290722211466406574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 1015169809474652433}
 --- !u!1 &4880148567214146847
 GameObject:
   m_ObjectHideFlags: 0

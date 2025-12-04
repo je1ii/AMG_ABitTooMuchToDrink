@@ -19,12 +19,14 @@ public class HealthBar : MonoBehaviour
     [Range(0.05f, 2f)]
     [SerializeField] private float timeToDrain = 0.2f; // seconds for ghost to catch up
 
-    public float _currentHealth;
+    private float _currentHealth;
     private float _ghostHealth; 
     private float _drainTimer; 
 
     private float _drainStartHealth;
     private float _drainTargetHealth;
+
+    public bool isDead = false;
 
     private enum State { Idle, Draining}
     private State _state = State.Idle;
@@ -111,13 +113,18 @@ public class HealthBar : MonoBehaviour
     private IEnumerator PlayerDied()
     {
         Debug.Log("Player died.");
-        yield return new WaitForSeconds(1.5f);
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(1.5f);
         
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void KillPlayer()
     {
+        if (isDead) return;
+        
+        isDead = true;
         StartCoroutine(PlayerDied());
     }
     
@@ -151,10 +158,5 @@ public class HealthBar : MonoBehaviour
         _currentHealth += amount;
         
         return true;
-    }
-
-    public void TestDamage()
-    {
-        TakeDamage(1f);
     }
 }

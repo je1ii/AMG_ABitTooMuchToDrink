@@ -21,7 +21,7 @@ MonoBehaviour:
   - {fileID: -6373080722913048563, guid: 6c1b8de54ae449a4996a655b5222ea6f, type: 3}
   health: 2
   damage: 2
-  speed: 1.3
+  speed: 0.6
   spawnWeight: 4
   drops:
   - {fileID: 1298956503318084838, guid: 5579c69885f675d42ae8c436e23b1a7f, type: 3}

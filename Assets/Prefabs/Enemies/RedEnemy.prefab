@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 2238725468681910631}
   - component: {fileID: 4532450028497444453}
   - component: {fileID: 7325652743948784392}
+  - component: {fileID: 2881986897861079415}
   m_Layer: 0
   m_Name: RedEnemy
   m_TagString: Untagged
@@ -152,3 +153,17 @@ MonoBehaviour:
   moveSpeed: 3
   damage: 1
   stoppingDistance: 0.5
+--- !u!114 &2881986897861079415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6090992979378779364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 4270383645217100223}
+  isInteractable: 0

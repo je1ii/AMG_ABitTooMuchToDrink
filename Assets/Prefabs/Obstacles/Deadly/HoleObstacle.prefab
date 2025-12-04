@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5556571976762094206}
   - component: {fileID: 7124301747091712134}
+  - component: {fileID: -7406115793187739515}
   m_Layer: 0
   m_Name: HoleObstacle
   m_TagString: Untagged
@@ -46,6 +47,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleItem
   obstacleData: {fileID: 11400000, guid: d842cae1e093ebd4c98b14cc2bb5156a, type: 2}
+--- !u!114 &-7406115793187739515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2383274918684759722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c95ab58fb496be47a5097e683f4d454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Culling
+  visualTarget: {fileID: 6930452983564477023}
 --- !u!1 &8532132170354978097
 GameObject:
   m_ObjectHideFlags: 0

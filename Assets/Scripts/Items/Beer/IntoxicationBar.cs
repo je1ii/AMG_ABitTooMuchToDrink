@@ -143,6 +143,26 @@ public class IntoxicationBar : MonoBehaviour
         if(currentIntoxication >= maxIntoxication) currentIntoxication = maxIntoxication;
     }
 
+    public bool SoberUp(float amount)
+    {
+        if(currentIntoxication <= 0) return false;
+
+        if (HealthBar.Instance.GetInvulnerableValue()) return false;
+        
+        currentIntoxication -= amount;
+        UpdateUI();
+
+        drainStart = ghostIntoxication;
+        drainTarget = currentIntoxication;
+        drainTimer = 0f;
+        barState = BarState.Draining;
+        
+        soberTimer = 0f;
+        
+        if(currentIntoxication <= 0) currentIntoxication = 0;
+        return true;
+    }
+
     public void ResetIntoxication()
     {
         float temp = currentIntoxication;
