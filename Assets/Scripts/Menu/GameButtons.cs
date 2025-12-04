@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoseButton : MonoBehaviour
+public class GameButtons : MonoBehaviour
 {
     public void Retry()
     {
