@@ -6,6 +6,7 @@ public class WorldManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform playerTransform;
     [SerializeField] private List<TerrainChunk> terrainChunkPrefabs;
+    [SerializeField] private TerrainChunk endStreet;
 
     [Header("Generation Settings")]
     [SerializeField] private float generationThreshold = 10f;
@@ -20,7 +21,13 @@ public class WorldManager : MonoBehaviour
     private int currentSortingOrder = 0;
     private Vector3 currentScrollOffset = Vector3.zero;
 
+    private bool isEndGame = false;
+    private bool reachedEndStreet = false;
+
     private List<TerrainChunk> activeChunks = new List<TerrainChunk>();
+    
+    public bool GetIsEndGame() => isEndGame;
+    public bool GetReachedEndStreet() => reachedEndStreet;
     
     void Start()
     {
@@ -40,7 +47,9 @@ public class WorldManager : MonoBehaviour
 
     void LateUpdate()
     {
-        UpdateWorldScroll();
+        if(!reachedEndStreet)
+            UpdateWorldScroll();
+        
         ApplyScrollOffset();
         CheckGeneration();
         CullOldChunks();
@@ -68,11 +77,49 @@ public class WorldManager : MonoBehaviour
         
         if (lastChunkEndAbsoluteX - worldCartesianX < generationThreshold)
         {
-            SpawnNewChunk();
+            if(!isEndGame)
+                SpawnNewChunk();
+            else
+                reachedEndStreet = true;
         }
     }
     
     private void SpawnNewChunk()
+    {
+        if (currentSortingOrder <= -9)
+        {
+            isEndGame = true;
+            SpawnEndChunk();
+            return;
+        }
+        
+        float spawnX = 0f;
+        
+        if (activeChunks.Count > 0)
+        {
+            TerrainChunk lastChunk = activeChunks[activeChunks.Count - 1];
+            spawnX = lastChunk.CartesianStart.x + lastChunk.GetChunkLength();
+        }
+
+        TerrainChunk prefab = terrainChunkPrefabs[Random.Range(0, terrainChunkPrefabs.Count)];
+
+        TerrainChunk newChunk = Instantiate(prefab, transform);
+
+        newChunk.SetSortingOrder(currentSortingOrder);
+        currentSortingOrder -= 1;
+        
+        Vector3 newCartesianStart = new Vector3(spawnX, 0, 0); 
+        newChunk.CartesianStart = newCartesianStart; 
+
+        Vector3 visualPos = Utils.CartesianToIsometric(newCartesianStart);
+        
+        newChunk.transform.localPosition = visualPos;
+        
+        activeChunks.Add(newChunk);
+        Debug.Log($"Generated new chunk at Absolute Cartesian X: {spawnX}");
+    }
+
+    private void SpawnEndChunk()
     {
         float spawnX = 0f;
         
@@ -81,11 +128,8 @@ public class WorldManager : MonoBehaviour
             TerrainChunk lastChunk = activeChunks[activeChunks.Count - 1];
             spawnX = lastChunk.CartesianStart.x + lastChunk.GetChunkLength();
         }
-        
 
-        TerrainChunk prefab = terrainChunkPrefabs[Random.Range(0, terrainChunkPrefabs.Count)];
-
-        TerrainChunk newChunk = Instantiate(prefab, transform);
+        TerrainChunk newChunk = Instantiate(endStreet, transform);
 
         newChunk.SetSortingOrder(currentSortingOrder);
         currentSortingOrder -= 1;

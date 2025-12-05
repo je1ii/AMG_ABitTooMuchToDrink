@@ -66,7 +66,7 @@ public class BeerProjectile : MonoBehaviour
     
     private void CheckCollision()
     {
-        if(this.gameObject.name == "MolotovBottle")
+        if(this.gameObject.name == "MolotovBottle" && enemiesInScene.Count > 0)
         {
             for (int i = enemiesInScene.Count - 1; i >= 0; i--)
             {
@@ -80,9 +80,9 @@ public class BeerProjectile : MonoBehaviour
                 }
             }
         }
-        else
+        else if (enemyTarget != null)
         {
-            if (Utils.CalculateMetric(this.gameObject,enemyTarget.transform, hitRange) <= hitRange)
+            if (Utils.CalculateMetric(this.gameObject, enemyTarget.transform, hitRange) <= hitRange)
             {
                 enemyTarget.TakeDamage(bottleDamage);
                 Destroy(this.gameObject);

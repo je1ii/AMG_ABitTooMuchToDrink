@@ -7,6 +7,8 @@ public class EnemyHealth : MonoBehaviour
     private GameObject[] enemyDrops;
     private Transform parent;
     
+    private WorldManager wm;
+    
     public void AssignHealth(int hp) => health = hp;
     public void AssignDrops(GameObject[] drops) => enemyDrops = drops;
     public void AssignParent(Transform p) => parent = p;
@@ -29,6 +31,10 @@ public class EnemyHealth : MonoBehaviour
 
     public void Die()
     {
+        wm = parent.gameObject.GetComponent<WorldManager>();
+        if(!wm.GetIsEndGame())
+            GameStats.AddEnemyKillScore();
+        
         Debug.Log($"{gameObject.name} died.");
         
         int dropsLength = enemyDrops.Length;

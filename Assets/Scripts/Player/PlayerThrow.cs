@@ -21,6 +21,7 @@ public class PlayerThrow : MonoBehaviour
     private PlayerHands hands;
     private PlayerMovement movement;
     private PlayerConsumption consumption;
+    private WorldManager wm;
     
     public static int GetEnemiesCount() => AllEnemies.Count;
     public static List<EnemyHealth> GetEnemies() => AllEnemies;
@@ -31,6 +32,13 @@ public class PlayerThrow : MonoBehaviour
         hands = GetComponent<PlayerHands>();
         movement = GetComponent<PlayerMovement>();
         consumption = GetComponent<PlayerConsumption>();
+        wm = parent.gameObject.GetComponent<WorldManager>();
+    }
+
+    void Update()
+    {
+        if(wm.GetIsEndGame())
+            ClearEnemies();
     }
 
     public IEnumerator ThrowBeer()
@@ -97,12 +105,25 @@ public class PlayerThrow : MonoBehaviour
         isThrowing = false;
     }
 
+    private void ClearEnemies()
+    {
+        for (int i = AllEnemies.Count - 1; i >= 0; i--)
+        {
+            if(AllEnemies[i] != null) 
+            {
+                AllEnemies[i].Die();
+            }
+        }
+        
+        AllEnemies.Clear();
+    }
+
     public void StartThrow()
     {
-        if (!isThrowing && hands != null && !hands.IsRightEmpty)
+        if (!isThrowing && hands != null && !hands.IsRightEmpty && !wm.GetIsEndGame())
         {
             isThrowing = true;
-            StartCoroutine(ThrowBeer());
+            StartCoroutine(ThrowBeer());    
         }
     }
 

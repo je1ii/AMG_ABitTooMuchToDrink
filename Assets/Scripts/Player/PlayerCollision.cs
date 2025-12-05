@@ -6,9 +6,15 @@ public class PlayerCollision : MonoBehaviour
     private static readonly List<ObstacleItem> AllObstacles = new List<ObstacleItem>();
     
     [SerializeField] private float collideRange;
-    [SerializeField] private float obstacleDamageInterval = 3f;
     
+    [Header("Damage Cooldown")]
+    [SerializeField] private float obstacleDamageInterval = 3f;
     private float nextObstacleDamageTime = 0f;
+    
+    [Header("Score Cooldown")]
+    [SerializeField] private float scoreCoolDownInterval = 0.5f; 
+    private float nextScoreTime = 0f;
+    
     private float obstacleRange;
     
     private List<EnemyHealth> enemiesInScene;
@@ -72,6 +78,12 @@ public class PlayerCollision : MonoBehaviour
             else if (data.deadly && data.notJumpable)
             {
                 HealthBar.Instance.KillPlayer();
+            }
+
+            if (pm.GetIsJumping() && Time.time >= nextScoreTime)
+            {
+                GameStats.AddObstacleJumpScore();
+                nextScoreTime = Time.time + scoreCoolDownInterval;
             }
         }
     }

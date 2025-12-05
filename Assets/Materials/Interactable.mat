@@ -13,8 +13,9 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
+  - _OUTLINEENABLED_ON
   - _OUTLINEMODE_SOLID
-  - _OUTLINEPOSITION_OUTSIDE
+  - _OUTLINEPOSITION_INSIDE_OVER_SPRITE
   - _OUTLINESHAPE_CONTOUR
   - _TILEMODE_STRETCH
   m_LightmapFlags: 4
@@ -53,11 +54,11 @@ Material:
     - _Angle: 45
     - _ConnectedAlpha: 0
     - _EnableExternalAlpha: 0
-    - _OutlineEnabled: 0
+    - _OutlineEnabled: 1
     - _OutlineMode: 0
-    - _OutlinePosition: 2
+    - _OutlinePosition: 1
     - _OutlineShape: 0
-    - _Thickness: 15
+    - _Thickness: 1
     - _TileMode: 0
     - _Weight: 0.5
     - _ZWrite: 0
@@ -67,6 +68,6 @@ Material:
     - _GradientOutline2: {r: 1, g: 1, b: 1, a: 1}
     - _ImageOutline: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SolidOutline: {r: 1, g: 1, b: 1, a: 1}
+    - _SolidOutline: {r: 0, g: 1, b: 0.020182133, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

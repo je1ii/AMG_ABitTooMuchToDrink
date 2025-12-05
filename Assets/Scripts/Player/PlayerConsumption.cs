@@ -75,8 +75,10 @@ public class PlayerConsumption : MonoBehaviour
             
             Debug.Log("Consuming beer...");
             yield return new WaitForSeconds(SetCorrectTimer(totalBeer));
-
-            invSys.AddItem(takenBeer.emptyBottle, takenBeer.emptyBottle.amount);
+            
+            if(slot != null) 
+                invSys.AddItem(takenBeer.emptyBottle, takenBeer.emptyBottle.amount);
+            
             bar.DoneConsuming(takenBeer.intoxicationValue);
             if(!hands.IsLeftEmpty) hands.RemoveOnLeft();
             Debug.Log("Done consuming, added intoxication value: " + takenBeer.intoxicationValue);

@@ -9,12 +9,21 @@ public class WaterData : PowerUpData
     
     public override void ExecuteInteraction(GameObject interactor, GameObject item)
     {
-        if (HealthBar.Instance.Heal(healAmount))
+        bool canSober = IntoxicationBar.Instance.SoberUp(soberAmount);
+        bool canHeal = HealthBar.Instance.Heal(healAmount);
+        
+        if (canHeal)
+        {
+            
             Debug.Log($"{interactor.name} got healed by {id}.");
+            Destroy(item);
+        }
         else
+        {
             Debug.Log($"{interactor.name} health is full or is already dead.");
-
-        if (IntoxicationBar.Instance.SoberUp(soberAmount))
+        }
+        
+        if (canSober)
         {
             Debug.Log($"{interactor.name} sobered up with {id}.");
             Destroy(item);

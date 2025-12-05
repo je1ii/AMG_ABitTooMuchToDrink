@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxLateralBound = 4f;
     [SerializeField] private float minForwardBound = 0f;
     [SerializeField] private float maxForwardBound = 10f;
+    [SerializeField] private float triggerForwardBound = 6f;
     
     [Header("State Settings")]
     public bool isDizzy = false;
@@ -29,21 +30,25 @@ public class PlayerMovement : MonoBehaviour
     [Header("Reference")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite[] characterSprites;
+    [SerializeField] private WorldManager worldManager;
     
     public Vector2 CartesianFacingDirection { get; private set; } = Vector2.up; 
     
     private bool isJumping = false;
-    private float verticalVelocity = 0f;
-    [SerializeField] private float currentHeight = 0f;  
+    [SerializeField] private bool isPlayerWon = false;
+    
+    private float currentHeight = 0f;  
     private Vector3 worldPosition; 
     
     private float hvX = 0f; 
     private float hvY = 0f;
+    private float verticalVelocity = 0f;
 
     private float baseSpeed;
     
     public Vector3 GetWorldPosition() => worldPosition;
     public bool GetIsJumping() => isJumping;
+    public bool GetIsPlayerWon() => isPlayerWon;
 
     void Start()
     {
@@ -52,6 +57,11 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        if (worldManager != null && worldManager.GetReachedEndStreet())
+        {
+            maxForwardBound = triggerForwardBound;
+        }
+        
         if (this != null)
         {
             InputMovement();
@@ -132,6 +142,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (worldPosition.x > maxForwardBound && hvX > 0) hvX = 0;
         if (worldPosition.x < minForwardBound && hvX < 0) hvX = 0;
+        
+        if (worldPosition.x >= triggerForwardBound - 1 && hvX > 0) 
+        {
+            isPlayerWon = true;
+            hvX = 0;
+            worldPosition.x = triggerForwardBound; 
+            Debug.Log("Player has reached the win boundary! Game Won.");
+        }
         
         worldPosition.x = Mathf.Clamp(worldPosition.x, minForwardBound, maxForwardBound);
     }

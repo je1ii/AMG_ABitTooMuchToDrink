@@ -22,6 +22,7 @@ public class EnemySpawner : MonoBehaviour
     private float totalWeight;
     
     private PlayerMovement pm;
+    private WorldManager wm;
     
     void Start()
     {
@@ -32,6 +33,7 @@ public class EnemySpawner : MonoBehaviour
         
         CalculateTotalWeight();
         pm = playerTarget.GetComponent<PlayerMovement>();
+        wm = parent.gameObject.GetComponent<WorldManager>();
         
         if (pm != null && spawnCoroutine == null)
         {
@@ -43,14 +45,12 @@ public class EnemySpawner : MonoBehaviour
     {
         SetWeightWithState();
         int currentEnemies = PlayerThrow.GetEnemiesCount();
-
-        if (currentEnemies >= spawnCap)
+        
+        if (wm.GetIsEndGame() || currentEnemies >= spawnCap)
         {
-            if (spawnCoroutine != null)
-            {
-                StopCoroutine(spawnCoroutine);
-                spawnCoroutine = null;
-            }
+            if (spawnCoroutine == null) return;
+            StopCoroutine(spawnCoroutine);
+            spawnCoroutine = null;
         }
         else
         {

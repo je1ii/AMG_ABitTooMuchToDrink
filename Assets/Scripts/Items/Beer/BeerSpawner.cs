@@ -19,7 +19,8 @@ public class BeerSpawner : MonoBehaviour
 
     private Coroutine spawnCoroutine = null; 
     
-    PlayerMovement pm;
+    private PlayerMovement pm;
+    private WorldManager wm;
     
     void Start()
     {
@@ -27,6 +28,7 @@ public class BeerSpawner : MonoBehaviour
             Debug.LogError("Player prefab is not assigned.");
         
         pm = player.GetComponent<PlayerMovement>();
+        wm = parent.gameObject.GetComponent<WorldManager>();
 
         if (pm != null && spawnCoroutine == null)
         {
@@ -39,20 +41,16 @@ public class BeerSpawner : MonoBehaviour
         List<GameObject> existingBeers = PlayerInteract.GetAllBeers();
         int currentBeers = existingBeers != null ? existingBeers.Count : 0;
         
-        if (currentBeers >= spawnCap)
+        if (wm.GetIsEndGame() || currentBeers >= spawnCap)
         {
-            if (spawnCoroutine != null)
-            {
-                StopCoroutine(spawnCoroutine);
-                spawnCoroutine = null;
-            }
+            if (spawnCoroutine == null) return;
+            StopCoroutine(spawnCoroutine);
+            spawnCoroutine = null;
         }
         else
         {
-            if (spawnCoroutine == null)
-            {
-                spawnCoroutine = StartCoroutine(SpawnBeerLoop());
-            }
+            if (spawnCoroutine != null) return;
+            spawnCoroutine = StartCoroutine(SpawnBeerLoop());
         }
     }
     
